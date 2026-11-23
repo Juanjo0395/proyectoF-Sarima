@@ -1,6 +1,6 @@
 ## Video
 
-🎥 **Enlace al video:** _pendiente — pegar aquí el link de YouTube (no listado) o Google Drive_
+🎥 **Enlace al video:** https://youtu.be/flb3WQI4LOc
 
 ---
 
