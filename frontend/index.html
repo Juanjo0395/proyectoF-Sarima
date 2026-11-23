@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pronóstico de consumo eléctrico</title>
+<link rel="stylesheet" href="/static/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="encabezado">
+    <div>
+      <h1>⚡ Pronóstico de consumo eléctrico</h1>
+      <p class="sub">Modelo SARIMA · datos de InfluxDB · horas en Colombia (UTC−5)</p>
+    </div>
+    <span id="salud" class="insignia">Verificando servicio…</span>
+  </header>
+
+  <main>
+    <section class="controles" aria-label="Controles del pronóstico">
+      <label>Horas a pronosticar
+        <select id="horas">
+          <option value="6">6 h</option>
+          <option value="12" selected>12 h</option>
+          <option value="24">24 h</option>
+          <option value="48">48 h</option>
+          <option value="72">72 h</option>
+        </select>
+      </label>
+      <label>Historia a mostrar
+        <select id="historia">
+          <option value="24">24 h</option>
+          <option value="48" selected>48 h</option>
+          <option value="72">72 h</option>
+          <option value="168">7 días</option>
+        </select>
+      </label>
+      <label>Confianza
+        <select id="confianza">
+          <option value="0.8">80 %</option>
+          <option value="0.9">90 %</option>
+          <option value="0.95" selected>95 %</option>
+        </select>
+      </label>
+      <button id="actualizar" type="button">Actualizar</button>
+    </section>
+
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <section class="indicadores" aria-label="Indicadores">
+      <article class="tarjeta">
+        <h2>Próxima hora</h2>
+        <p id="ind-proxima" class="valor">—</p>
+        <p id="ind-proxima-det" class="detalle"></p>
+      </article>
+      <article class="tarjeta">
+        <h2>Máximo esperado</h2>
+        <p id="ind-maximo" class="valor">—</p>
+        <p id="ind-maximo-det" class="detalle"></p>
+      </article>
+      <article class="tarjeta">
+        <h2>Mínimo esperado</h2>
+        <p id="ind-minimo" class="valor">—</p>
+        <p id="ind-minimo-det" class="detalle"></p>
+      </article>
+      <article class="tarjeta">
+        <h2>Último dato real</h2>
+        <p id="ind-ultimo" class="valor">—</p>
+        <p id="ind-rellenadas" class="detalle"></p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2 id="titulo-grafica">Histórico y pronóstico</h2>
+      <div class="lienzo"><canvas id="grafica" aria-label="Gráfica de histórico y pronóstico"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <h2>Detalle del pronóstico</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead><tr><th>Hora (Colombia)</th><th>Pronóstico</th><th>Límite inferior</th><th>Límite superior</th></tr></thead>
+          <tbody id="filas"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Modelo</h2>
+      <p id="modelo" class="detalle">Cargando información del modelo…</p>
+    </section>
+  </main>
+
+  <footer>Computación Avanzada · Proyecto final</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
